@@ -1,0 +1,127 @@
+<?php $__env->startSection('title'); ?>
+仪表盘
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('breadcrumb'); ?>  
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>  
+<div class="row">
+    <div class="col-lg-12"> 
+        <div class="alert alert-success alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>  
+            <p>慧积木合&copy;2015-2016</p> 
+        </div>
+    </div>
+</div> 
+<div class="row"> 
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-aqua">
+            <div class="inner">
+                <h3><?php echo $size['uTotal']; ?></h3>
+                <p>用户总量</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-person"></i>
+            </div>
+            <a href="#" class="small-box-footer">查看<i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    </div><!-- ./col --> 
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-aqua">
+            <div class="inner">
+                <h3><?php echo $size['uMonth']; ?></h3>
+                <p>本月总量</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-person"></i>
+            </div>
+            <a href="#" class="small-box-footer">查看<i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    </div><!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-aqua">
+            <div class="inner">
+                <h3><?php echo $size['uWeek']; ?></h3>
+                <p>本周总量</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-person"></i>
+            </div>
+            <a href="#" class="small-box-footer">查看<i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    </div><!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-aqua">
+            <div class="inner">
+                <h3><?php echo $size['uToday']; ?></h3>
+                <p>今日新增</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-person-add"></i>
+            </div>
+            <a href="#" class="small-box-footer">查看<i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    </div><!-- ./col -->
+</div> 
+<div class="row">
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-yellow">
+            <div class="inner">
+                <h3><?php echo $size['sTotal']; ?></h3>
+                <p>独白总量</p>
+            </div>
+            <div class="icon">
+                <i class="fa  fa-hand-spock-o"></i>
+            </div>
+            <a href="#" class="small-box-footer">查看<i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    </div><!-- ./col --> 
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-yellow">
+            <div class="inner">
+                <h3><?php echo $size['sMonth']; ?></h3>
+                <p>本月总量</p>
+            </div>
+            <div class="icon">
+                <i class="fa  fa-hand-spock-o"></i>
+            </div>
+            <a href="#" class="small-box-footer">查看<i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    </div><!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-yellow">
+            <div class="inner">
+                <h3><?php echo $size['sWeek']; ?></h3>
+                <p>本周总量</p>
+            </div>
+            <div class="icon">
+                <i class="fa  fa-hand-spock-o"></i>
+            </div>
+            <a href="#" class="small-box-footer">查看<i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    </div><!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-yellow">
+            <div class="inner">
+                <h3><?php echo $size['sToday']; ?></h3>
+                <p>今日新增</p>
+            </div>
+            <div class="icon">
+                <i class="fa  fa-hand-spock-o"></i>
+            </div>
+            <a href="#" class="small-box-footer">查看<i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    </div><!-- ./col -->
+</div>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layout.default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

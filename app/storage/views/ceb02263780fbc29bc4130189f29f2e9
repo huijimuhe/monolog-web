@@ -1,0 +1,66 @@
+<?php $__env->startSection('title'); ?>
+用户列表
+<?php $__env->stopSection(); ?> 
+<?php $__env->startSection('content'); ?> 
+<div class="row"> 
+    <div class="col-lg-12">
+        <a class="btn btn-block btn-social btn-bitbucket" href="<?php echo URL::route('users.create'); ?>">
+            <i class="fa fa-plus"></i> 新建用户
+        </a> 
+    </div>
+
+</div><!-- /.row --> 
+
+<div class="row"> 
+    <div class="col-lg-12">  
+        <?php if(isset($users)): ?>
+        <?php echo $users->links(); ?>
+
+        <table class="table table-bordered table-hover table-striped tablesorter">
+            <thead>
+                <tr>  
+                    <th>姓名  </th>
+                    <th>性别  </th>
+                    <th>微信号  </th> 
+                    <th>是否被屏蔽  </th>
+                    <th>创建时间  </th>
+                    <th>操作 </th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($users as $user): ?>
+                <tr> 
+                    <td><a href="<?php echo URL::route('users.show', $user->id); ?>"><?php echo $user->name; ?></a></td>
+                    <td><?php echo $user->gender=='m' ?'男':'女'; ?> </td>
+                    <td><?php echo $user->app_token; ?> </td>
+                    <td><?php echo $user->isbanned; ?> </td>
+                    <td><?php echo $user->created_at; ?></td>
+                    <td>
+                        <a href="<?php echo URL::route('users.edit', $user->id); ?>" class="btn btn-success btn-mini pull-left">编辑</a>
+
+                        <?php echo Form::open(array('route' => array('users.destroy', $user->id), 'method' => 'delete', 'data-confirm' => 'Are you sure?')); ?>
+
+                        <button type="submit" href="<?php echo URL::route('users.destroy', $user->id); ?>" class="btn btn-danger btn-mini">删除</button>
+                        <?php echo Form::close(); ?>
+
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table> 
+        <?php echo $users->links(); ?>
+
+        <?php endif; ?>
+    </div>  
+
+</div><!-- /.row -->
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+<!-- Page Specific Plugins -->
+<script src="<?php echo asset('public/plugins/tablesorter/jquery.tablesorter.js'); ?>"></script>
+<script src="<?php echo asset('public/plugins/tablesorter/tables.js'); ?>"></script>
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layout.default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,81 @@
+<?php $__env->startSection('title'); ?>
+举报管理
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?> 
+
+<div class="row"> 
+    <div class="col-lg-2">
+        <button class="btn btn-block btn-social btn-google" id="btn_mulitBanned" 
+                data-token="<?php echo csrf_token(); ?>" data-href="#">
+            <i class="fa fa-minus"></i> 批量屏蔽
+        </button> 
+    </div> 
+</div><!-- /.row -->
+
+<div class="row" style="margin-top: 1em;"> 
+    <div class="col-lg-12">  
+        <?php if(count($reports)!=0): ?> 
+        <table class="table table-bordered table-hover table-striped tablesorter">
+            <thead>
+                <tr> 
+                    <th>编号  </th>
+                    <th>举报人 </th> 
+                    <th>原因  </th> 
+                    <th>内容 </th> 
+                    <th>状态</th>
+                    <th>操作 </th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($reports as $r): ?>
+                <tr> 
+                    <td><?php echo $r->id; ?></td>
+                    <td><?php echo isset($r->reporter->name) ? $r->reporter->name : '已删除'; ?></td>
+                    <td><?php echo $r->reason; ?></a></td>
+                    <td>
+                        <?php if($r->statue): ?>
+                        <a href="<?php echo URL::route('statues.show', $r->statue->id); ?>">
+                            <span ><?php echo isset($r->statue->text) ? $r->statue->text : '已删除'; ?></span>
+                        </a>
+                        <?php else: ?>
+                        '已删除'
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <?php if($r->isbanned==0): ?><i class="fa fa-envelope-o text-yellow">未读</i>
+                        <?php elseif($r->isbanned==1): ?><i class="fa fa-lock text-red">已屏蔽</i>
+                        <?php else: ?><i class="fa fa-unlock text-green">未屏蔽</i>
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">操作<span class="caret"></span></button>
+                            <ul class="dropdown-menu"> 
+
+                                <li><?php echo Form::open(array('route' => array('reports.deal', $r->id), 'method' => 'post', 'data-confirm' => 'Are you sure?')); ?>
+
+                                    <button type="submit" class="btn btn-link">屏蔽</button>
+                                    <?php echo Form::close(); ?></li> 
+                            </ul>
+                        </div> 
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>  
+        <?php echo $reports->links(); ?>
+
+        <?php endif; ?>
+    </div>  
+
+</div><!-- /.row -->
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+<!-- Page Specific Plugins -->
+<script src="<?php echo asset('plugins/tablesorter/jquery.tablesorter.js'); ?>"></script>
+<script src="<?php echo asset('plugins/tablesorter/tables.js'); ?>"></script>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layout.default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

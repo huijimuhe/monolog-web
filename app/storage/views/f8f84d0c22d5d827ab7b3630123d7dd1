@@ -1,0 +1,146 @@
+<?php $__env->startSection('title'); ?>
+独白列表
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?> 
+
+<div class="row"> 
+    <div class="col-lg-2">
+        <a class="btn btn-block btn-social btn-bitbucket" href="<?php echo URL::route('statues.create'); ?>">
+            <i class="fa fa-plus"></i> 新建秘密
+        </a> 
+    </div>
+    <div class="col-lg-2">
+        <button class="btn btn-block btn-social btn-google" id="btn_mulitDelete" 
+                data-token="<?php echo csrf_token(); ?>" data-href="<?php echo URL::route('statues.mulitDelete'); ?>">
+            <i class="fa fa-minus"></i> 批量删除
+        </button> 
+    </div>
+    <div class="col-lg-2">
+        <a class="btn btn-block btn-social btn-github" id="btn_mulitBlock" href="javascript::void(0)">
+            <i class="fa fa-lock"></i> 批量屏蔽
+        </a> 
+    </div>
+</div><!-- /.row -->
+
+<div class="row" style="margin-top: 1em;"> 
+    <div class="col-lg-12">  
+        <?php if(count($statues)!=0): ?> 
+        <table class="table table-bordered table-hover table-striped tablesorter">
+            <thead>
+                <tr> 
+                    <th>复选  </th>
+                    <th>内容  </th>
+                    <th>坐标</th>
+                    <th>对/错</th>
+                    <th>发布人 </th>  
+                    <th>状态 </th> 
+                    <th>操作 </th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($statues as $statue): ?>
+                <tr> 
+                    <td><?php echo Form::checkbox('ids[]',$statue->id); ?></td>
+                    <td><a href="<?php echo URL::route('statues.show', $statue->id); ?>">
+                          <?php echo $statue->text; ?>
+
+                        </a></td>
+                    <td><?php echo $statue->poi[0]; ?>/<?php echo $statue->poi[1]; ?></td>
+                    <td><?php echo $statue->right_count; ?>/<?php echo $statue->miss_count; ?></td>
+                    <td><?php echo $statue->user_id; ?></td>
+                    <td><a href="<?php echo URL::route('users.show', $statue->user_id); ?>"><?php echo $statue->user==null?'已删除': $statue->user->name; ?></a></td>
+                    <td><?php echo $statue->isbaned==0?'<i class="fa fa-unlock text-green"></i>':'<i class="fa fa-lock text-red"></i>'; ?></td>
+                    <td>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">操作<span class="caret"></span></button>
+                            <ul class="dropdown-menu"> 
+                                <li><?php echo Form::open(array('route' => array('statues.destroy', $statue->id), 'method' => 'delete', 'data-confirm' => 'Are you sure?')); ?>
+
+                                    <button type="submit" class="btn btn-link">举报</button>
+                                    <?php echo Form::close(); ?></li> 
+                                <li><?php echo Form::open(array('route' => array('statues.destroy', $statue->id), 'method' => 'delete', 'data-confirm' => 'Are you sure?')); ?>
+
+                                    <button type="submit" class="btn btn-link">删除</button>
+                                    <?php echo Form::close(); ?></li> 
+                            </ul>
+                        </div> 
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>  
+        <?php echo $statues->links(); ?>
+
+        <?php endif; ?>
+    </div>  
+
+</div><!-- /.row -->
+
+<div class="row"> 
+    <div class="col-lg-2">
+        <a class="btn btn-block btn-social btn-bitbucket" href="<?php echo URL::route('statues.create'); ?>">
+            <i class="fa fa-plus"></i> 新建秘密
+        </a> 
+    </div>
+    <div class="col-lg-2">
+        <a class="btn btn-block btn-social btn-google" id="btn_mulitDelete" href="javascript::void(0)">
+            <i class="fa fa-minus"></i> 批量删除
+        </a> 
+    </div>
+    <div class="col-lg-2">
+        <a class="btn btn-block btn-social btn-github" id="btn_mulitBlock" href="javascript::void(0)">
+            <i class="fa fa-lock"></i> 批量屏蔽
+        </a> 
+    </div>
+</div><!-- /.row -->
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+<!-- Page Specific Plugins -->
+<script src="<?php echo asset('public/plugins/tablesorter/jquery.tablesorter.js'); ?>"></script>
+<script src="<?php echo asset('public/plugins/tablesorter/tables.js'); ?>"></script>
+<script>
+$('#btn_mulitDelete').click(function(e) {
+    e.preventDefault();
+    var _ids = new Array();
+    var _url = $(this).attr('data-href'),
+            _btn = $(this),
+            _token = $(this).attr('data-token');
+    //获得选中的input 
+    $('input[type="checkbox"][name="ids[]"]:checked').each(function() {
+        _ids.push($(this).val());
+    });
+    if (_ids.length == 0) {
+        alert("未选择独白");
+        return false;
+    }
+    if (confirm('您确定要执行此操作吗？请慎重！') == true) {
+        _btn.attr("disabled", true);
+        $.ajax({
+            type: 'POST',
+            url: _url,
+            data: {'_token': _token, 'ids': _ids},
+            dataType: 'json',
+            beforeSend: function() {
+                _btn.attr("disabled", true);
+            },
+            success: function(data) {
+                location.reload();
+                _btn.attr("disabled", false);
+            },
+            error: function(e, a, b) {
+                if (e.status == 200) {
+                    location.reload();
+                } else {
+                    alert('出错了，请稍候再试....');
+                }
+                _btn.attr("disabled", false);
+            }
+        });
+    }
+    return false;
+});
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layout.default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
